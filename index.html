@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EcoSphere - Carbon Footprint Tracker & Reduction Hub</title>
+  <meta name="description" content="Calculate your carbon footprint, log daily eco-friendly habits, adopt carbon-saving actions, and follow personalized advisor recommendations.">
+  <link rel="stylesheet" href="./src/css/styles.css">
+</head>
+<body>
+  
+  <div class="container">
+    <!-- APP HEADER -->
+    <header role="banner">
+      <div class="logo-section">
+        <span class="logo-icon" aria-hidden="true">🌍</span>
+        <span class="logo-text">EcoSphere</span>
+      </div>
+      
+      <div class="user-progress-widget">
+        <!-- Header Level Widget -->
+        <div class="level-badge-container" aria-label="Your current user level" id="header-level-widget">
+          <span class="level-icon" aria-hidden="true">🌱</span>
+          <div class="level-details">
+            <span class="level-title" id="header-level-name">Sprout</span>
+            <span class="level-number" id="header-level-num">Lvl 1</span>
+          </div>
+        </div>
+        
+        <span id="header-points" style="font-weight: 700; color: var(--color-info);" aria-label="Earned points">0 XP</span>
+        
+        <!-- Theme Toggle Button -->
+        <button id="theme-toggle" class="theme-toggle-btn" aria-label="Toggle light or dark interface theme">
+          <!-- Icon injected dynamically by UI script -->
+        </button>
+      </div>
+    </header>
+
+    <!-- MAIN APP NAVIGATION -->
+    <nav class="nav-tabs" role="tablist" aria-label="EcoSphere sections">
+      <button class="tab-btn active" role="tab" aria-selected="true" aria-controls="dashboard-panel" id="tab-dashboard" data-target="dashboard">
+        <span aria-hidden="true">📊</span> Dashboard
+      </button>
+      <button class="tab-btn" role="tab" aria-selected="false" aria-controls="calculator-panel" id="tab-calculator" data-target="calculator">
+        <span aria-hidden="true">🧮</span> Calculator
+      </button>
+      <button class="tab-btn" role="tab" aria-selected="false" aria-controls="action-hub-panel" id="tab-action-hub" data-target="action-hub">
+        <span aria-hidden="true">🌿</span> Action Hub
+      </button>
+      <button class="tab-btn" role="tab" aria-selected="false" aria-controls="insights-panel" id="tab-insights" data-target="insights">
+        <span aria-hidden="true">💡</span> Insights
+      </button>
+      <button class="tab-btn" role="tab" aria-selected="false" aria-controls="profile-panel" id="tab-profile" data-target="profile">
+        <span aria-hidden="true">👤</span> Profile
+      </button>
+    </nav>
+
+    <main id="main-content" role="main">
+      
+      <!-- 1. DASHBOARD PANEL -->
+      <section id="dashboard-panel" class="view-panel active" role="tabpanel" aria-labelledby="tab-dashboard">
+        <div class="dashboard-grid">
+          
+          <!-- Gauge Card -->
+          <div class="glass-card gauge-section">
+            <h2 class="section-title">Annual Carbon Footprint</h2>
+            <div class="gauge-wrapper">
+              <svg class="gauge-svg" viewBox="0 0 200 200" aria-label="Visual gauge of carbon footprint tons per year">
+                <circle class="gauge-bg-ring" cx="100" cy="100" r="90" />
+                <circle id="gauge-progress" class="gauge-progress-ring" cx="100" cy="100" r="90" stroke-dasharray="565.48" stroke-dashoffset="565.48" />
+              </svg>
+              <div class="gauge-center-text">
+                <span id="gauge-value" class="gauge-value">0.0</span>
+                <span class="gauge-unit">Tons CO₂e</span>
+              </div>
+            </div>
+            <div id="gauge-rating" class="gauge-rating rating-good">Moderate Footprint</div>
+            
+            <!-- Comparisons -->
+            <h3 style="margin-top: 2rem; font-size: 0.95rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px;">Benchmarks Comparison</h3>
+            <div class="comparisons-container">
+              <div class="comparison-box">
+                <div class="comparison-label">Global Target</div>
+                <div id="comp-target" class="comparison-num">0x</div>
+                <div style="font-size: 0.7rem; color: var(--text-muted);">&lt;2.0t per person</div>
+              </div>
+              <div class="comparison-box">
+                <div class="comparison-label">Global Average</div>
+                <div id="comp-global" class="comparison-num">0x</div>
+                <div style="font-size: 0.7rem; color: var(--text-muted);">~4.5t per person</div>
+              </div>
+              <div class="comparison-box">
+                <div class="comparison-label">US Average</div>
+                <div id="comp-national" class="comparison-num">0x</div>
+                <div style="font-size: 0.7rem; color: var(--text-muted);">~16.0t per person</div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Category Breakdown Card -->
+          <div class="glass-card">
+            <h2 class="section-title">Emissions Breakdown</h2>
+            <div id="breakdown-bars" style="margin-bottom: 1.5rem;" aria-label="Carbon categories percentage share breakdown">
+              <!-- Dynamic Bars injected by JS -->
+            </div>
+            
+            <div class="chart-legend" aria-hidden="true">
+              <div class="legend-item"><span class="legend-color color-transport"></span> Transportation</div>
+              <div class="legend-item"><span class="legend-color color-energy"></span> Household Energy</div>
+              <div class="legend-item"><span class="legend-color color-food"></span> Diet & Food</div>
+              <div class="legend-item"><span class="legend-color color-lifestyle"></span> Lifestyle & Waste</div>
+            </div>
+          </div>
+          
+        </div>
+      </section>
+
+      <!-- 2. CALCULATOR PANEL -->
+      <section id="calculator-panel" class="view-panel" role="tabpanel" aria-labelledby="tab-calculator">
+        <div class="glass-card calculator-wizard">
+          <h2 class="section-title" style="margin-bottom: 2rem;">Carbon Calculator Wizard</h2>
+          
+          <!-- Wizard Steps Indicators -->
+          <div class="wizard-steps" aria-label="Calculator form steps progress">
+            <div id="wizard-progress-bar" class="wizard-progress-bar" aria-hidden="true"></div>
+            <div class="step-indicator active">1<span class="step-label">Transport</span></div>
+            <div class="step-indicator">2<span class="step-label">Energy</span></div>
+            <div class="step-indicator">3<span class="step-label">Diet</span></div>
+            <div class="step-indicator">4<span class="step-label">Lifestyle</span></div>
+          </div>
+
+          <!-- Question slides form -->
+          <form id="carbon-calc-form" onsubmit="event.preventDefault();">
+            <div class="wizard-form-container">
+              
+              <!-- STEP 1: TRANSPORT -->
+              <div class="wizard-slide active">
+                <h3 style="margin-bottom: 1.5rem; color: var(--accent-green);">1. Transportation Habits</h3>
+                
+                <div class="form-group">
+                  <label for="carKmPerWeek" class="form-label">Weekly Driving Distance (km)</label>
+                  <div class="slider-group">
+                    <input type="range" id="carKmPerWeek" name="carKmPerWeek" min="0" max="1000" step="10" value="150" class="custom-slider" aria-valuemin="0" aria-valuemax="1000" aria-valuenow="150">
+                    <div class="slider-val-box"><span id="carKmPerWeek-val">150</span> km</div>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="carFuelType" class="form-label">Vehicle Engine / Fuel Type</label>
+                  <select id="carFuelType" name="carFuelType" class="select-dropdown">
+                    <option value="none">No car / Don't drive</option>
+                    <option value="gasoline" selected>Gasoline (Standard Car)</option>
+                    <option value="diesel">Diesel</option>
+                    <option value="hybrid">Hybrid</option>
+                    <option value="electric">Electric (EV)</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="transitKmPerWeek" class="form-label">Weekly Public Transit Travel (Bus/Train in km)</label>
+                  <div class="slider-group">
+                    <input type="range" id="transitKmPerWeek" name="transitKmPerWeek" min="0" max="500" step="5" value="50" class="custom-slider" aria-valuemin="0" aria-valuemax="500" aria-valuenow="50">
+                    <div class="slider-val-box"><span id="transitKmPerWeek-val">50</span> km</div>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="flightHoursPerYear" class="form-label">Annual Flight Travel (Total Hours)</label>
+                  <div class="slider-group">
+                    <input type="range" id="flightHoursPerYear" name="flightHoursPerYear" min="0" max="150" step="1" value="10" class="custom-slider" aria-valuemin="0" aria-valuemax="150" aria-valuenow="10">
+                    <div class="slider-val-box"><span id="flightHoursPerYear-val">10</span> hrs</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- STEP 2: ENERGY -->
+              <div class="wizard-slide">
+                <h3 style="margin-bottom: 1.5rem; color: var(--accent-green);">2. Household Energy Draw</h3>
+                
+                <div class="form-group">
+                  <label for="electricityKwhPerMonth" class="form-label">Monthly Electricity Consumption (kWh)</label>
+                  <div class="form-desc">Avg household is ~300-400 kWh/mo</div>
+                  <div class="slider-group">
+                    <input type="range" id="electricityKwhPerMonth" name="electricityKwhPerMonth" min="0" max="1500" step="20" value="300" class="custom-slider" aria-valuemin="0" aria-valuemax="1500" aria-valuenow="300">
+                    <div class="slider-val-box"><span id="electricityKwhPerMonth-val">300</span> kWh</div>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="gasKwhPerMonth" class="form-label">Monthly Natural Gas Utility (kWh)</label>
+                  <div class="form-desc">Avg household is ~150-250 kWh/mo</div>
+                  <div class="slider-group">
+                    <input type="range" id="gasKwhPerMonth" name="gasKwhPerMonth" min="0" max="1000" step="10" value="150" class="custom-slider" aria-valuemin="0" aria-valuemax="1000" aria-valuenow="150">
+                    <div class="slider-val-box"><span id="gasKwhPerMonth-val">150</span> kWh</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- STEP 3: FOOD & DIET -->
+              <div class="wizard-slide">
+                <h3 style="margin-bottom: 1.5rem; color: var(--accent-green);">3. Diet Profile</h3>
+                <div class="form-desc" style="margin-bottom: 1.5rem;">Food footprint is shaped heavily by animal-product consumption. Select the one matching your pattern.</div>
+
+                <div class="radio-cards-grid" role="radiogroup" aria-label="Diet selection options">
+                  
+                  <label class="radio-card" for="diet-meat">
+                    <input type="radio" id="diet-meat" name="dietType" value="highMeat">
+                    <span class="radio-icon" aria-hidden="true">🥩</span>
+                    <span class="radio-title">Heavy Meat</span>
+                    <span style="font-size: 0.75rem; color: var(--text-muted);">Meat in most meals</span>
+                  </label>
+
+                  <label class="radio-card" for="diet-avg">
+                    <input type="radio" id="diet-avg" name="dietType" value="average" checked>
+                    <span class="radio-icon" aria-hidden="true">🍗</span>
+                    <span class="radio-title">Average Diet</span>
+                    <span style="font-size: 0.75rem; color: var(--text-muted);">Mixed meat and vegetables</span>
+                  </label>
+
+                  <label class="radio-card" for="diet-veg">
+                    <input type="radio" id="diet-veg" name="dietType" value="vegetarian">
+                    <span class="radio-icon" aria-hidden="true">🧀</span>
+                    <span class="radio-title">Vegetarian</span>
+                    <span style="font-size: 0.75rem; color: var(--text-muted);">No meat, eats dairy/eggs</span>
+                  </label>
+
+                  <label class="radio-card" for="diet-vegan">
+                    <input type="radio" id="diet-vegan" name="dietType" value="vegan">
+                    <span class="radio-icon" aria-hidden="true">🥗</span>
+                    <span class="radio-title">Vegan</span>
+                    <span style="font-size: 0.75rem; color: var(--text-muted);">Fully plant-based diet</span>
+                  </label>
+
+                </div>
+              </div>
+
+              <!-- STEP 4: LIFESTYLE & WASTE -->
+              <div class="wizard-slide">
+                <h3 style="margin-bottom: 1.5rem; color: var(--accent-green);">4. Lifestyle & Recycling</h3>
+                
+                <div class="form-group" style="margin-bottom: 2rem;">
+                  <label class="form-label">Shopping / Material Consumption Rate</label>
+                  <div class="form-desc">How frequently do you buy clothing, gadgets, or decor items?</div>
+                  
+                  <div class="radio-cards-grid" role="radiogroup" aria-label="Shopping frequency habits">
+                    
+                    <label class="radio-card" for="shop-frugal">
+                      <input type="radio" id="shop-frugal" name="shoppingHabit" value="frugal">
+                      <span class="radio-icon" aria-hidden="true">🎒</span>
+                      <span class="radio-title">Minimalist</span>
+                      <span style="font-size: 0.75rem; color: var(--text-muted);">Thrift first, buy rarely</span>
+                    </label>
+
+                    <label class="radio-card" for="shop-avg">
+                      <input type="radio" id="shop-avg" name="shoppingHabit" value="average" checked>
+                      <span class="radio-icon" aria-hidden="true">👕</span>
+                      <span class="radio-title">Moderate</span>
+                      <span style="font-size: 0.75rem; color: var(--text-muted);">Occasional new items</span>
+                    </label>
+
+                    <label class="radio-card" for="shop-heavy">
+                      <input type="radio" id="shop-heavy" name="shoppingHabit" value="heavy">
+                      <span class="radio-icon" aria-hidden="true">🛍️</span>
+                      <span class="radio-title">Consumerist</span>
+                      <span style="font-size: 0.75rem; color: var(--text-muted);">Frequent new goods/trends</span>
+                    </label>
+
+                  </div>
+                </div>
+
+                <div class="toggle-switch-group">
+                  <div>
+                    <label for="recycles" class="form-label" style="margin-bottom: 0;">Actively Recycle & Compost</label>
+                    <div style="font-size: 0.8rem; color: var(--text-muted);">Sort metal/glass/plastic and separate food scraps.</div>
+                  </div>
+                  <label class="toggle-switch" for="recycles">
+                    <input type="checkbox" id="recycles" name="recycles">
+                    <span class="toggle-slider"></span>
+                  </label>
+                </div>
+              </div>
+
+            </div>
+            
+            <!-- Live Estimate Footer -->
+            <div id="live-footprint-est" style="font-weight: 700; color: var(--accent-green); text-align: center; margin-top: 1.5rem; font-size: 1rem;">
+              Estimated Footprint: 0.0 tons CO₂e / year
+            </div>
+
+            <!-- Back and Next Buttons -->
+            <div class="wizard-actions">
+              <button type="button" id="btn-prev" class="btn btn-secondary">← Back</button>
+              <button type="button" id="btn-next" class="btn btn-primary">Continue ➔</button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <!-- 3. ACTION HUB PANEL -->
+      <section id="action-hub-panel" class="view-panel" role="tabpanel" aria-labelledby="tab-action-hub">
+        <div class="action-hub-layout">
+          
+          <!-- Daily Habits Logging Widgets -->
+          <div class="glass-card habit-logger-card">
+            <h2 class="section-title"><span>📅</span> Daily Eco Habits</h2>
+            <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;">
+              Log daily green choices. Completing each task adds immediate points to your profile levels. You can log these once per day.
+            </p>
+            <div id="habits-log-grid" class="habits-log-grid" aria-label="Daily habit logs list">
+              <!-- Injected dynamically by JS -->
+            </div>
+          </div>
+
+          <!-- Actions Reduction Directory -->
+          <div class="glass-card">
+            <h2 class="section-title"><span>🌿</span> Core Carbon-Reduction Tasks</h2>
+            
+            <!-- Filters Bar -->
+            <div class="filters-bar" role="search" aria-label="Search actions by category and impact level">
+              <div class="filter-group">
+                <label for="filter-category" class="form-label" style="margin-bottom: 0; font-size: 0.85rem;">Category:</label>
+                <select id="filter-category" class="filter-select">
+                  <option value="all">All Categories</option>
+                  <option value="energy">Energy</option>
+                  <option value="transport">Transport</option>
+                  <option value="food">Food</option>
+                  <option value="lifestyle">Lifestyle</option>
+                </select>
+              </div>
+
+              <div class="filter-group">
+                <label for="filter-impact" class="form-label" style="margin-bottom: 0; font-size: 0.85rem;">Carbon Impact:</label>
+                <select id="filter-impact" class="filter-select">
+                  <option value="all">All Impacts</option>
+                  <option value="low">Low Impact</option>
+                  <option value="medium">Medium Impact</option>
+                  <option value="high">High Impact</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Actions grid -->
+            <div id="action-cards-grid" class="action-cards-grid" style="margin-top: 1.5rem;" aria-label="Carbon reduction actions library">
+              <!-- Injected dynamically by JS -->
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- 4. INSIGHTS / PERSONALIZED ADVISOR PANEL -->
+      <section id="insights-panel" class="view-panel" role="tabpanel" aria-labelledby="tab-insights">
+        <div class="advisor-layout">
+          
+          <!-- Insights observations -->
+          <div class="glass-card" style="display: flex; flex-direction: column; gap: 1.5rem;">
+            <div class="advisor-intro-box">
+              <div class="advisor-avatar" aria-hidden="true">🤖</div>
+              <div class="advisor-intro-text">
+                <h3>Your Advisor Observations</h3>
+                <p>Personalized analysis of your carbon footprint data with prioritized optimization adjustments.</p>
+              </div>
+            </div>
+            
+            <p id="comparison-text" style="font-weight: 500; font-size: 0.95rem; line-height: 1.6; border-left: 3px solid var(--accent-green); padding-left: 1rem; color: var(--text-primary);">
+              Your footprint calculation is pending...
+            </p>
+
+            <div id="advisor-insights-list" class="insights-list" aria-label="Advisor textual suggestions list">
+              <!-- Injected by JS -->
+            </div>
+          </div>
+
+          <!-- Projections offsets comparisons -->
+          <div class="glass-card">
+            <h2 class="section-title">Simulation & Projection Offset</h2>
+            <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1.5rem;">
+              See your projected footprint reduction if you adopt the recommended actions.
+            </p>
+
+            <div class="projection-summary">
+              <div class="projection-circles">
+                <div class="projection-circle-val current">
+                  <span id="proj-current-val" class="projection-val">0.0t</span>
+                  <span class="projection-lbl">Current</span>
+                </div>
+                <div class="projection-arrow" aria-hidden="true">➔</div>
+                <div class="projection-circle-val" style="border-color: var(--color-info); color: var(--color-info);">
+                  <span id="proj-savings-val" class="projection-val">-0.0t</span>
+                  <span class="projection-lbl">Potential</span>
+                </div>
+                <div class="projection-arrow" aria-hidden="true">➔</div>
+                <div class="projection-circle-val projected">
+                  <span id="proj-target-val" class="projection-val">0.0t</span>
+                  <span class="projection-lbl">Projected</span>
+                </div>
+              </div>
+              <p style="font-size: 0.85rem; color: var(--text-muted); max-width: 320px;">
+                Adopting high-yield eco actions will lower your footprint and boost your profile level.
+              </p>
+            </div>
+            
+            <h3 class="section-title" style="margin-top: 2.5rem; font-size: 1.1rem; border-top: 1px solid var(--glass-border); padding-top: 1.5rem;">High-Priority Action Recommendations</h3>
+            <div id="advisor-recs-grid" class="action-cards-grid" style="grid-template-columns: 1fr; margin-top: 1rem;" aria-label="Recommended adjustments based on calculations">
+              <!-- Recommendations injected dynamically by JS -->
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- 5. USER PROFILE & GAMIFICATION PANEL -->
+      <section id="profile-panel" class="view-panel" role="tabpanel" aria-labelledby="tab-profile">
+        <div class="profile-layout">
+          
+          <!-- Avatar card and XP progression -->
+          <div class="profile-sidebar">
+            <div class="glass-card avatar-card">
+              <div class="avatar-ring" aria-hidden="true">🌳</div>
+              <div class="avatar-level-label" id="profile-level-title">Sprout</div>
+              <h2 id="profile-name" class="avatar-name">Eco Explorer</h2>
+              <span id="profile-points" class="avatar-xp-lbl">0 XP Earned</span>
+              
+              <div class="xp-progress-bar-container">
+                <div id="xp-progress-bar" class="xp-progress-bar"></div>
+              </div>
+              <span id="xp-progress-text" style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.5rem; display: block;">0 / 100 XP to next level</span>
+            </div>
+            
+            <!-- Quick Link to Browser Tests -->
+            <div class="glass-card" style="padding: 1.25rem;">
+              <h3 style="font-size: 0.95rem; font-weight: 700; margin-bottom: 0.5rem;">🔍 Developer Diagnostics</h3>
+              <p style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 1rem;">
+                Run unit tests directly in the browser to audit equations, states, and gamification hooks.
+              </p>
+              <a href="./tests/run-tests.html" class="btn btn-secondary" style="width: 100%; justify-content: center; font-size: 0.85rem; text-decoration: none;">Open Test Runner Dashboard</a>
+            </div>
+          </div>
+
+          <!-- Achievements Badges Grid -->
+          <div class="glass-card">
+            <h2 class="section-title">🔓 Unlocked Achievements</h2>
+            <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1.5rem;">
+              Collect badges by performing actions, logging habits daily, and lowering your carbon totals.
+            </p>
+            
+            <div id="profile-badges-grid" class="badges-grid" aria-label="Earned achievement badges list">
+              <!-- Badges injected dynamically by JS -->
+            </div>
+            
+            <!-- Reset Button Drawer -->
+            <div class="settings-section">
+              <button id="btn-reset-data" class="btn btn-reset" aria-label="Reset all application data and restart tracker">Reset EcoSphere Data</button>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer role="contentinfo">
+      <p>EcoSphere Sustainability awareness calculator engine. All carbon evaluations use standard metrics. Made for carbon reduction tracking.</p>
+    </footer>
+  </div>
+
+  <!-- Floating toast wrapper -->
+  <div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+  <!-- Bootstrapping scripts modules -->
+  <script type="module">
+    import { initializeState } from "./src/js/state.js";
+    import { initUI } from "./src/js/ui.js";
+
+    // Initialize application state container
+    initializeState();
+    
+    // Wire up events and perform visual mappings
+    initUI();
+  </script>
+</body>
+</html>

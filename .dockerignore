@@ -1,0 +1,7 @@
+.git
+.gitignore
+.dockerignore
+.gemini
+node_modules
+*.log
+tests/run-tests.html.log

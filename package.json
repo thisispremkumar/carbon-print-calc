@@ -1,0 +1,13 @@
+{
+  "name": "ecosphere",
+  "version": "1.0.0",
+  "description": "EcoSphere - Carbon Footprint Tracker & Reduction Platform",
+  "main": "index.html",
+  "type": "module",
+  "scripts": {
+    "start": "npx http-server . -p 8080",
+    "test": "node tests/run-tests.js"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}

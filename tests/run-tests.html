@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EcoSphere Test Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #0a0f0d;
+      --bg-card: rgba(20, 32, 28, 0.6);
+      --border-color: rgba(68, 140, 116, 0.2);
+      --text-main: #f0f5f2;
+      --text-muted: #9ab0a6;
+      --accent-green: #3cd070;
+      --accent-red: #ff5252;
+      --accent-yellow: #ffd54f;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background-color: var(--bg-primary);
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(60, 208, 112, 0.05) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(20, 150, 100, 0.05) 0%, transparent 40%);
+      color: var(--text-main);
+      padding: 2.5rem 1rem;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 900px;
+    }
+
+    header {
+      margin-bottom: 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .title-group h1 {
+      font-size: 2.2rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .title-group h1 span {
+      background: linear-gradient(135deg, #a3f7bf, var(--accent-green));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .title-group p {
+      color: var(--text-muted);
+      margin-top: 0.25rem;
+    }
+
+    .btn-back {
+      padding: 0.6rem 1.2rem;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      color: var(--text-main);
+      font-weight: 500;
+      text-decoration: none;
+      transition: all 0.3s;
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn-back:hover {
+      background: rgba(60, 208, 112, 0.1);
+      border-color: var(--accent-green);
+    }
+
+    .summary-card {
+      background: var(--bg-card);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1.5rem;
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+    }
+
+    .stat-box {
+      text-align: center;
+      padding: 0.5rem;
+    }
+
+    .stat-label {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-val {
+      font-size: 2.2rem;
+      font-weight: 700;
+    }
+
+    .stat-val.passed { color: var(--accent-green); }
+    .stat-val.failed { color: var(--accent-red); }
+    .stat-val.total { color: var(--text-main); }
+    .stat-val.assertions { color: var(--accent-yellow); }
+
+    .suite-card {
+      background: var(--bg-card);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+    }
+
+    .suite-header {
+      font-size: 1.25rem;
+      font-weight: 600;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 0.75rem;
+      margin-bottom: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .suite-badge {
+      font-size: 0.8rem;
+      padding: 0.25rem 0.6rem;
+      border-radius: 20px;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .suite-badge.pass {
+      background: rgba(60, 208, 112, 0.1);
+      color: var(--accent-green);
+      border: 1px solid rgba(60, 208, 112, 0.2);
+    }
+
+    .suite-badge.fail {
+      background: rgba(255, 82, 82, 0.1);
+      color: var(--accent-red);
+      border: 1px solid rgba(255, 82, 82, 0.2);
+    }
+
+    .test-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .test-item {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 8px;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .test-title-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .test-name {
+      font-weight: 500;
+      font-size: 1rem;
+      color: var(--text-main);
+    }
+
+    .test-status {
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      text-transform: uppercase;
+    }
+
+    .test-status.pass {
+      background: var(--accent-green);
+      color: #03200a;
+    }
+
+    .test-status.fail {
+      background: var(--accent-red);
+      color: #fff;
+    }
+
+    .error-log {
+      background: rgba(255, 82, 82, 0.05);
+      border-left: 3px solid var(--accent-red);
+      padding: 0.75rem;
+      border-radius: 0 4px 4px 0;
+      font-family: monospace;
+      font-size: 0.85rem;
+      color: #ffa4a4;
+      white-space: pre-wrap;
+      margin-top: 0.25rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="title-group">
+        <h1>EcoSphere <span>Test Suite</span></h1>
+        <p>Client-side calculation and state engine testing</p>
+      </div>
+      <a href="../index.html" class="btn-back">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+        Back to App
+      </a>
+    </header>
+
+    <div class="summary-card" id="summary-section">
+      <div class="stat-box">
+        <div class="stat-label">Total Tests</div>
+        <div class="stat-val total" id="stat-total">0</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-label">Passed</div>
+        <div class="stat-val passed" id="stat-passed">0</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-label">Failed</div>
+        <div class="stat-val failed" id="stat-failed">0</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-label">Assertions</div>
+        <div class="stat-val assertions" id="stat-assertions">0</div>
+      </div>
+    </div>
+
+    <div id="test-suites-container"></div>
+  </div>
+
+  <script type="module">
+    import { getTestResults, resetTestResults } from "./test-runner.js";
+    import { runCalculatorTests } from "./calculator.test.js";
+    import { runStateTests } from "./state.test.js";
+
+    // Initialize and run
+    resetTestResults();
+    runCalculatorTests();
+    runStateTests();
+
+    const results = getTestResults();
+
+    // Fill counters
+    document.getElementById("stat-total").textContent = results.total;
+    document.getElementById("stat-passed").textContent = results.passed;
+    document.getElementById("stat-failed").textContent = results.failed;
+    document.getElementById("stat-assertions").textContent = results.assertions;
+
+    // Render results
+    const container = document.getElementById("test-suites-container");
+
+    for (const [suiteName, tests] of Object.entries(results.suites)) {
+      const suiteHasFailed = tests.some(t => t.status === "FAIL");
+      const suiteCard = document.createElement("div");
+      suiteCard.className = "suite-card";
+
+      const suiteHeader = document.createElement("div");
+      suiteHeader.className = "suite-header";
+      suiteHeader.innerHTML = `
+        <span>Suite: ${suiteName}</span>
+        <span class="suite-badge ${suiteHasFailed ? 'fail' : 'pass'}">${suiteHasFailed ? 'Failed' : 'Passed'}</span>
+      `;
+      suiteCard.appendChild(suiteHeader);
+
+      const testList = document.createElement("div");
+      testList.className = "test-list";
+
+      tests.forEach(testObj => {
+        const testItem = document.createElement("div");
+        testItem.className = "test-item";
+
+        const isPass = testObj.status === "PASS";
+        
+        testItem.innerHTML = `
+          <div class="test-title-bar">
+            <span class="test-name">${testObj.name}</span>
+            <span class="test-status ${isPass ? 'pass' : 'fail'}">${testObj.status}</span>
+          </div>
+        `;
+
+        if (!isPass && testObj.error) {
+          const errDiv = document.createElement("div");
+          errDiv.className = "error-log";
+          errDiv.textContent = testObj.error;
+          testItem.appendChild(errDiv);
+        }
+
+        testList.appendChild(testItem);
+      });
+
+      suiteCard.appendChild(testList);
+      container.appendChild(suiteCard);
+    }
+  </script>
+</body>
+</html>

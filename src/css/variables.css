@@ -1,0 +1,108 @@
+/* EcoSphere Design Tokens & Theme Variables */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+  /* Fonts */
+  --font-family: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  
+  /* Shared Base Tokens */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.15);
+  --shadow-md: 0 8px 20px rgba(0, 0, 0, 0.25);
+  --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.4);
+  --shadow-glass: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+  
+  --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  
+  --border-radius-sm: 8px;
+  --border-radius-md: 16px;
+  --border-radius-lg: 24px;
+  --border-radius-round: 50%;
+  
+  /* Primary HSL Colors */
+  --hue-green: 148;
+  --hue-accent: 145;
+  --hue-danger: 354;
+  --hue-warning: 45;
+  
+  /* Default: Dark Premium Theme (Eco-Forest) */
+  --bg-primary: #080d0a;
+  --bg-secondary: #0e1612;
+  --bg-tertiary: #14201a;
+  
+  --text-primary: #f2f7f4;
+  --text-secondary: #a1b8ad;
+  --text-muted: #6b8277;
+  
+  --accent-green: hsl(var(--hue-accent), 65%, 52%);
+  --accent-green-hover: hsl(var(--hue-accent), 75%, 42%);
+  --accent-green-alpha: hsla(var(--hue-accent), 65%, 52%, 0.15);
+  --accent-green-glow: hsla(var(--hue-accent), 65%, 52%, 0.35);
+  
+  --color-danger: hsl(var(--hue-danger), 85%, 60%);
+  --color-danger-alpha: hsla(var(--hue-danger), 85%, 60%, 0.1);
+  
+  --color-warning: hsl(var(--hue-warning), 95%, 55%);
+  --color-warning-alpha: hsla(var(--hue-warning), 95%, 55%, 0.1);
+  
+  --color-info: #35b3ff;
+  --color-info-alpha: rgba(53, 179, 255, 0.1);
+  
+  /* Category HSL Colors for Charts */
+  --cat-transport: #ff9f43;
+  --cat-energy: #341f97;
+  --cat-food: #10ac84;
+  --cat-lifestyle: #54a0ff;
+
+  /* Glassmorphism Variables */
+  --glass-bg: rgba(14, 25, 20, 0.6);
+  --glass-border: rgba(68, 140, 116, 0.18);
+  --glass-highlight: rgba(255, 255, 255, 0.03);
+  
+  --input-bg: rgba(20, 35, 28, 0.7);
+  --input-border: rgba(68, 140, 116, 0.25);
+  --input-focus-border: hsl(var(--hue-accent), 65%, 52%);
+}
+
+/* Light Theme Variables (Clean Mint) */
+[data-theme="light"] {
+  --bg-primary: #f3f8f5;
+  --bg-secondary: #ffffff;
+  --bg-tertiary: #e8f3ee;
+  
+  --text-primary: #15241d;
+  --text-secondary: #4a6356;
+  --text-muted: #7d968a;
+  
+  --accent-green: hsl(var(--hue-accent), 65%, 40%);
+  --accent-green-hover: hsl(var(--hue-accent), 75%, 32%);
+  --accent-green-alpha: hsla(var(--hue-accent), 65%, 40%, 0.12);
+  --accent-green-glow: hsla(var(--hue-accent), 65%, 40%, 0.25);
+  
+  --color-danger: hsl(var(--hue-danger), 75%, 50%);
+  --color-danger-alpha: hsla(var(--hue-danger), 75%, 50%, 0.08);
+  
+  --color-warning: #d97706;
+  --color-warning-alpha: rgba(217, 119, 6, 0.08);
+  
+  --color-info: #0284c7;
+  --color-info-alpha: rgba(2, 132, 199, 0.08);
+
+  /* Category Colors for Light Mode */
+  --cat-transport: #e67e22;
+  --cat-energy: #5f27cd;
+  --cat-food: #1dd1a1;
+  --cat-lifestyle: #2e86de;
+  
+  /* Glassmorphism Variables */
+  --glass-bg: rgba(255, 255, 255, 0.75);
+  --glass-border: rgba(46, 117, 89, 0.15);
+  --glass-highlight: rgba(255, 255, 255, 0.5);
+  
+  --input-bg: rgba(255, 255, 255, 0.9);
+  --input-border: rgba(46, 117, 89, 0.25);
+  --input-focus-border: hsl(var(--hue-accent), 65%, 40%);
+  
+  --shadow-glass: 0 8px 32px 0 rgba(46, 117, 89, 0.06);
+}
